@@ -1,0 +1,220 @@
+/* ================================================================
+   DENKNEST FARBSCHEMA
+   Zentrale Farbdefinitionen für alle Komponenten
+================================================================ */
+
+:root {
+    /* ===== FARBPALETTE ===== */
+    --color-background: #111827;
+    --color-text: #D1D5DB;
+    --color-heading: #EADDCA;
+    --color-muted-text: #9CA3AF;
+    --color-header-footer-bg: #1F2937; /* Header/Footer background */
+
+    /* ===== LINKS ===== */
+    --color-link: #60A5FA;
+    --color-link-hover: #93C5FD;
+    --color-link-visited: #C4B5FD;
+    --color-link-active: #3B82F6;
+    --color-primary-hover: #93C5FD; /* Gleicher Wert wie --color-link-hover */
+
+    /* ===== UI-ELEMENTE ===== */
+    --color-nav-background: #1F2937;
+    --color-footer-background: #1F2937;
+    --color-card-bg: #1E293B;
+    --color-secondary-bg: #1F2937;
+    --color-border: #374151;
+    --color-focus: #60A5FA;
+
+    /* ===== TRANSPARENZ-WERTE ===== */
+    --color-link-hover-bg: rgba(96, 165, 250, 0.15);
+    --color-link-visited-underline: rgba(196, 181, 253, 0.4);
+    --color-link-underline: rgba(96, 165, 250, 0.4);
+    --color-overlay-bg: rgba(0, 0, 0, 0.8);
+    --color-overlay-dark: rgba(0, 0, 0, 0.95);
+    --color-shadow-card: rgba(0, 0, 0, 0.3);
+    --color-shadow-card-hover: rgba(0, 0, 0, 0.4);
+
+    /* ===== SKIP-LINK & OVERLAYS =====
+       Modusunabhängig und bewusst konstant: Der Skip-Link und die
+       Lightbox-Overlays behalten ihre Farben in ALLEN Modi (hell,
+       dunkel, hoher Kontrast). Diese Variablen daher in den
+       Modus-Blöcken unten NICHT überschreiben. */
+    --color-skip-link-bg: #005f87;
+    --color-skip-link-bg-hover: #004a6a;
+    --color-skip-link-text: #ffffff;
+    --color-skip-link-focus: #ffbf47;
+    --color-skip-link-shadow: rgba(0, 95, 135, 0.3);
+    --color-overlay-text: #ffffff;
+    --color-overlay-hover-bg: rgba(255, 255, 255, 0.2);
+    --color-on-focus: #000000; /* Text auf --color-focus-Hintergrund (buch01 Skip-Link) */
+
+    /* ===== SPEZIELLE BOXEN ===== */
+    --color-tipp-bg: rgba(76, 175, 80, 0.1);
+    --color-tipp-border: #4caf50;
+    --color-warnung-bg: rgba(255, 152, 0, 0.1);
+    --color-warnung-border: #ff9800;
+
+}
+
+/* ================================================================
+   MODUS-LOGIK (HELLER MODUS / HOHER KONTRAST)
+
+   XOR-Prinzip: Der Schalter kehrt die Systempräferenz jeweils um.
+   - System dunkel/ohne Präferenz + Schalter AN  -> Modus aktiv
+   - System mit Präferenz (hell/more) + Schalter AUS -> Modus aktiv
+   Dadurch funktioniert der Schalter in BEIDE Richtungen und bleibt
+   auch bei gesetzter Systempräferenz bedienbar.
+   Alles nur unter `screen`, damit die Druckfarben unten Vorrang haben.
+================================================================ */
+
+/* ===== HELLER MODUS: System dunkel + Schalter AN ===== */
+@media screen and (not (prefers-color-scheme: light)) {
+    body:has(#light-mode-toggle:checked) {
+        --color-background: #ffffff;
+        --color-text: #1F2937;
+        --color-heading: #92400E;
+        --color-muted-text: #4B5563; /* WCAG AA: 6,9:1 auf #F3F4F6 (war #6B7280 = 4,39:1) */
+        --color-link: #2563EB;
+        --color-link-hover: #1D4ED8;
+        --color-link-visited: #7C3AED;
+        --color-link-active: #1E40AF;
+        --color-primary-hover: #1D4ED8;
+        --color-nav-background: #F9FAFB;
+        --color-footer-background: #F9FAFB;
+        --color-header-footer-bg: #F3F4F6;
+        --color-card-bg: #F3F4F6;
+        --color-secondary-bg: #F9FAFB;
+        --color-border: #D1D5DB;
+        --color-focus: #2563EB;
+        --color-tipp-bg: rgba(76, 175, 80, 0.15);
+        --color-warnung-bg: rgba(255, 152, 0, 0.15);
+        --color-link-hover-bg: rgba(37, 99, 235, 0.15);
+        --color-link-underline: rgba(37, 99, 235, 0.4);
+        --color-link-visited-underline: rgba(124, 58, 237, 0.4);
+    }
+}
+
+/* ===== HELLER MODUS: System hell + Schalter AUS ===== */
+@media screen and (prefers-color-scheme: light) {
+    body:not(:has(#light-mode-toggle:checked)) {
+        --color-background: #ffffff;
+        --color-text: #1F2937;
+        --color-heading: #92400E;
+        --color-muted-text: #4B5563; /* WCAG AA: 6,9:1 auf #F3F4F6 (war #6B7280 = 4,39:1) */
+        --color-link: #2563EB;
+        --color-link-hover: #1D4ED8;
+        --color-link-visited: #7C3AED;
+        --color-link-active: #1E40AF;
+        --color-primary-hover: #1D4ED8;
+        --color-nav-background: #F9FAFB;
+        --color-footer-background: #F9FAFB;
+        --color-header-footer-bg: #F3F4F6;
+        --color-card-bg: #F3F4F6;
+        --color-secondary-bg: #F9FAFB;
+        --color-border: #D1D5DB;
+        --color-focus: #2563EB;
+        --color-tipp-bg: rgba(76, 175, 80, 0.15);
+        --color-warnung-bg: rgba(255, 152, 0, 0.15);
+        --color-link-hover-bg: rgba(37, 99, 235, 0.15);
+        --color-link-underline: rgba(37, 99, 235, 0.4);
+        --color-link-visited-underline: rgba(124, 58, 237, 0.4);
+    }
+}
+
+/* ===== HOHER KONTRAST: System ohne Präferenz + Schalter AN ===== */
+@media screen and (not (prefers-contrast: more)) {
+    body:has(#high-contrast-toggle:checked) {
+        --color-background: #000000;
+        --color-text: #ffffff;
+        --color-heading: #FFD700;
+        --color-muted-text: #ffffff;
+        --color-link: #FFFF00;
+        --color-link-hover: #FFFF99;
+        --color-link-visited: #FF66FF;
+        --color-link-active: #FFFF00;
+        --color-primary-hover: #FFFF99;
+        --color-nav-background: #000000;
+        --color-footer-background: #000000;
+        --color-header-footer-bg: #000000;
+        --color-card-bg: #000000;
+        --color-secondary-bg: #000000;
+        --color-border: #ffffff;
+        --color-focus: #FFFF00;
+        --color-link-hover-bg: rgba(255, 255, 0, 0.2);
+        --color-link-underline: rgba(255, 255, 0, 0.6);
+        --color-link-visited-underline: rgba(255, 102, 255, 0.6);
+    }
+}
+
+/* ===== HOHER KONTRAST: System mit Präferenz + Schalter AUS ===== */
+@media screen and (prefers-contrast: more) {
+    body:not(:has(#high-contrast-toggle:checked)) {
+        --color-background: #000000;
+        --color-text: #ffffff;
+        --color-heading: #FFD700;
+        --color-muted-text: #ffffff;
+        --color-link: #FFFF00;
+        --color-link-hover: #FFFF99;
+        --color-link-visited: #FF66FF;
+        --color-link-active: #FFFF00;
+        --color-primary-hover: #FFFF99;
+        --color-nav-background: #000000;
+        --color-footer-background: #000000;
+        --color-header-footer-bg: #000000;
+        --color-card-bg: #000000;
+        --color-secondary-bg: #000000;
+        --color-border: #ffffff;
+        --color-focus: #FFFF00;
+        --color-link-hover-bg: rgba(255, 255, 0, 0.2);
+        --color-link-underline: rgba(255, 255, 0, 0.6);
+        --color-link-visited-underline: rgba(255, 102, 255, 0.6);
+    }
+}
+/* ===== DRUCK-OPTIMIERUNG ===== */
+/* Erzwingt Papier-freundliche Farben für ALLE Projekte */
+@media print {
+    :root {
+        --color-background: #ffffff;
+        --color-text: #000000;
+        --color-heading: #000000;
+        --color-muted-text: #555555;
+        --color-link: #000000; /* Links schwarz im Druck */
+        --color-card-bg: #ffffff;
+        --color-border: #cccccc;
+        --color-nav-background: #ffffff;
+        --color-footer-background: #ffffff;
+    }
+
+    /* Versteckt Navigation und Toggles im Druck */
+    .light-mode-wrapper,
+    .high-contrast-wrapper,
+    .hide-images-wrapper,
+    .skip-link,
+    nav,
+    .az-nav,
+    .image-toggle,
+    .image-label,
+    .figure-visibility-toggle,
+    .figure-visibility-label {
+        display: none !important;
+    }
+
+    /* Optional: Links ausschreiben, damit man sie auf Papier lesen kann */
+    main a[href^="http"]::after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+    }
+
+    /* Akkordeon-Pfeile im Druck ausblenden */
+    main > section > details > summary::after {
+        display: none;
+    }
+
+    /* Kartenschatten und Hover-Versatz im Druck entfernen */
+    header,
+    main > section {
+        box-shadow: none !important;
+        transform: none !important;
+    }
+}

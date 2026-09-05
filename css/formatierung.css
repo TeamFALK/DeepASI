@@ -1,0 +1,1263 @@
+/* ================================================================
+   TeamFALK - GEMEINSAME FORMATIERUNG
+   Struktur, Layout und Typografie fuer ALLE Sites
+   (teamfalk, denknest, deepasi, buch01, fotogalerie)
+
+   Architektur (3 Schichten, in dieser Reihenfolge einbinden):
+   1. denknest-colors.css  -> alle Farben (identisch ueberall)
+   2. formatierung.css     -> diese Datei (identisch ueberall)
+   3. site.css             -> optional, nur :root-Overrides pro Site
+      (z. B. --content-max-width, --chrome-max-width, --border-radius)
+
+   Regeln:
+   - Hier stehen KEINE Farbwerte, nur var()-Referenzen
+   - Identitaetsstiftende Sonderfaelle laufen ueber Site-Klassen
+     am <body>, z. B. body.layout-book (buch01 Card-Design)
+   - Abschnitte, deren Selektoren auf einer Site nicht vorkommen,
+     sind dort wirkungslos und schaden nicht
+================================================================ */
+
+/* ================================================================
+   BASIS
+================================================================ */
+:root {
+    /* Breiten: --content-max-width begrenzt den Inhalt,
+       --chrome-max-width begrenzt header/nav/footer
+       (none = volle Breite). Defaults = teamfalk/deepasi-Muster */
+    --content-max-width: 900px;
+    --chrome-max-width: none;
+    --border-radius: 8px;
+    --base-line-height: 1.6;
+    --font-base: 1rem;
+
+    /* Abstaende */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-xxl: 3rem;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    /* Grid-Layout: header/nav/main/footer explizit zuweisen
+       Skip-Link und Toggles sind position: fixed/absolute und
+       liegen damit ausserhalb des Grid-Flusses. */
+    display: grid;
+    grid-template-areas:
+        "header"
+        "nav"
+        "main"
+        "footer";
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: 100%;
+    gap: var(--space-lg);
+    min-height: 100vh;
+    margin: 0;
+    padding: var(--space-md);
+    font-size: var(--font-base);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: var(--base-line-height);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Reduzierte Bewegungen */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ================================================================
+   TYPOGRAFIE (fluid via clamp)
+================================================================ */
+h1, h2, h3 {
+    color: var(--color-heading);
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: var(--space-sm);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 2.5rem); }
+h2 { font-size: clamp(1.5rem, 4vw, 1.8rem); }
+h3 { font-size: clamp(1.2rem, 3vw, 1.4rem); }
+
+p {
+    margin: 0 0 var(--space-md) 0;
+}
+
+blockquote {
+    margin: 0;
+    padding-left: var(--space-md);
+    border-left: 3px solid var(--color-border);
+}
+
+blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* ================================================================
+   LINKS
+================================================================ */
+a {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-decoration-color: var(--color-link-underline);
+    text-underline-offset: 0.2em;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+a:visited {
+    color: var(--color-link-visited);
+    text-decoration-color: var(--color-link-visited-underline);
+}
+
+a:hover {
+    color: var(--color-link-hover);
+    text-decoration-color: currentColor;
+}
+
+a:active {
+    color: var(--color-link-active);
+}
+
+/* ================================================================
+   GERUEST: header / nav / main / footer
+================================================================ */
+header, nav, main, footer {
+    width: 100%;
+    max-width: var(--chrome-max-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+main {
+    max-width: var(--content-max-width);
+    flex: 1 0 auto; /* Footer bleibt unten */
+    display: grid;
+    gap: var(--space-lg);
+    align-content: start;
+    overflow-wrap: anywhere;
+}
+
+/* Grid-Gap ersetzt Kind-Abstaende */
+main > * {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+/* ================================================================
+   HEADER
+================================================================ */
+header {
+    background-color: var(--color-header-footer-bg);
+    color: var(--color-heading);
+    padding: var(--space-lg);
+    text-align: center;
+    border-radius: var(--border-radius);
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    color: var(--color-muted-text);
+    margin: var(--space-sm) 0 0 0;
+    font-style: italic;
+}
+
+/* Home-Link im Header (buch01) */
+.home-link {
+    text-decoration: none;
+    display: inline-block;
+    transition: opacity 0.2s ease;
+}
+
+.home-link:hover,
+.home-link:focus {
+    opacity: 0.8;
+}
+
+.home-link:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.home-link h1 {
+    margin-bottom: 0;
+}
+
+.slogan {
+    color: var(--color-muted-text);
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    margin: 0;
+}
+
+/* ================================================================
+   NAVIGATION
+================================================================ */
+nav {
+    background-color: var(--color-card-bg);
+    padding: var(--space-md);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+}
+
+/* Inline-Linkleiste mit Mittelpunkt-Trennern */
+.nav-inline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+}
+
+.nav-inline li {
+    display: flex;
+    align-items: center;
+}
+
+.nav-inline li:not(:last-child)::after {
+    content: '·';
+    margin-left: var(--space-sm);
+    color: var(--color-muted-text);
+}
+
+.nav-inline a {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.nav-inline a:hover {
+    background-color: var(--color-link-hover-bg);
+    text-decoration: none;
+}
+
+/* A-Z Navigation (denknest) */
+.az-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
+    gap: var(--space-sm);
+}
+
+.az-nav a {
+    display: block;
+    padding: var(--space-sm);
+    background-color: var(--color-card-bg);
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.az-nav a:hover, .az-nav a.active {
+    background-color: var(--color-link);
+    color: var(--color-background);
+    text-decoration: none;
+    border-color: var(--color-link);
+}
+
+/* Meta-Links und TOC-Hinweis (buch01) */
+.nav-meta-links {
+    color: var(--color-muted-text);
+    font-size: 0.9rem;
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.toc-hint {
+    color: var(--color-muted-text);
+    font-size: 0.9rem;
+    margin: 0 0 var(--space-md);
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav > ul > li {
+    margin-bottom: var(--space-md);
+}
+
+/* Toggle fuer Inhaltsverzeichnis (reines CSS, buch01) */
+nav .toc-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+nav .toc-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.toggle-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: var(--color-link);
+    font-weight: bold;
+    margin-right: 0.5rem;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.toggle-icon::before {
+    content: '[+]';
+    font-size: 1rem;
+}
+
+nav .toc-toggle:checked + .toc-label .toggle-icon::before {
+    content: '[−]';
+}
+
+nav .toc-toggle:focus + .toc-label .toggle-icon {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+    border-color: var(--color-focus);
+}
+
+.toggle-icon:hover {
+    background-color: var(--color-link-hover-bg);
+    border-color: var(--color-link);
+}
+
+nav .toc-link,
+nav .sub-menu a {
+    display: inline-block;
+    color: var(--color-link);
+    padding: 0.5rem;
+    text-decoration: none;
+    font-weight: 500;
+    vertical-align: middle;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+nav .sub-menu a {
+    padding: 0.25rem 0.5rem;
+}
+
+nav .toc-link:visited,
+nav .sub-menu a:visited {
+    color: var(--color-link-visited);
+}
+
+nav .toc-link:hover, nav .toc-link:focus,
+nav .sub-menu a:hover, nav .sub-menu a:focus {
+    background-color: var(--color-link-hover-bg);
+    color: var(--color-link-hover);
+    text-decoration: underline;
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+/* Untermenue - Grid-Trick (0fr -> 1fr) statt max-height,
+   damit beliebig viele Unterpunkte ohne Abschneiden passen.
+   Voraussetzung: .sub-menu ist ein Wrapper mit genau einem <ul>-Kind */
+nav .sub-menu {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease-out;
+    margin-top: 0.5rem;
+}
+
+nav .sub-menu > ul {
+    overflow: hidden;
+    min-height: 0;
+    padding-left: var(--space-xl);
+}
+
+nav .toc-toggle:checked ~ .sub-menu {
+    grid-template-rows: 1fr;
+}
+
+nav .sub-menu li {
+    font-size: 0.95rem;
+    margin: 0.5rem 0;
+}
+
+/* ================================================================
+   INHALT: Cards und Text
+================================================================ */
+article,
+section,
+figure {
+    background-color: var(--color-card-bg);
+    padding: var(--space-lg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-border);
+    margin: 0;
+}
+
+article h2,
+article h3.title,
+section h2 {
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+article .title,
+section .title {
+    text-align: center;
+}
+
+/* Verschachtelte Sections (Unterkapitel) - kein Card-Effekt */
+main section section {
+    background-color: transparent;
+    border: none;
+    border-left: 3px solid var(--color-border);
+    border-radius: 0;
+    padding: var(--space-md) 0 var(--space-md) var(--space-xl);
+}
+
+.seitenanfang {
+    text-align: center;
+    margin-top: var(--space-lg);
+}
+
+.seitenanfang a::after {
+    content: ' ↑';
+}
+
+/* ================================================================
+   SITE-KLASSE: layout-book (buch01)
+   Card-Design mit Schatten, Hover-Versatz und grosszuegigeren
+   Abstaenden. Nur aktiv, wenn <body class="layout-book"> gesetzt ist.
+================================================================ */
+body.layout-book main {
+    gap: var(--space-xxl);
+}
+
+body.layout-book main p {
+    max-width: 70ch;
+    line-height: 1.7;
+}
+
+body.layout-book header,
+body.layout-book nav,
+body.layout-book main > section {
+    box-shadow: 0 2px 8px var(--color-shadow-card);
+}
+
+body.layout-book main > section {
+    padding: var(--space-xl);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+body.layout-book main > section:hover {
+    box-shadow: 0 4px 12px var(--color-shadow-card-hover);
+    transform: translateY(-2px);
+}
+
+body.layout-book main section section {
+    box-shadow: none;
+    transform: none;
+    padding: var(--space-md) 0 var(--space-md) var(--space-xl);
+}
+
+body.layout-book main section section:hover {
+    border-left-color: var(--color-heading);
+}
+
+/* ================================================================
+   BESONDERE BOXEN (denknest)
+================================================================ */
+.tipp, .warnung {
+    padding: var(--space-md);
+    margin: var(--space-lg) 0;
+    border-left-width: 4px;
+    border-left-style: solid;
+    border-radius: var(--border-radius);
+}
+
+.tipp {
+    background-color: var(--color-tipp-bg);
+    color: var(--color-text);
+    border-left-color: var(--color-tipp-border);
+}
+
+.warnung {
+    background-color: var(--color-warnung-bg);
+    color: var(--color-text);
+    border-left-color: var(--color-warnung-border);
+}
+
+/* ================================================================
+   UTILITY CLASSES (denknest)
+================================================================ */
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 640px;
+}
+
+/* Lesebreite (70ch) als Opt-in:
+   - auf einem Container (section/article/main): begrenzt den Fliesstext darin
+   - auf einem einzelnen Element (p/ul/ol/blockquote): begrenzt nur dieses */
+p.lesebreite,
+ul.lesebreite,
+ol.lesebreite,
+blockquote.lesebreite,
+.lesebreite p,
+.lesebreite ul,
+.lesebreite ol,
+.lesebreite blockquote {
+    max-width: 70ch;
+    line-height: 1.7;
+}
+
+.item {
+    background: var(--color-card-bg);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.item.center {
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.item.compact {
+    padding: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    border-radius: calc(var(--border-radius) - 1px);
+}
+
+/* Tags (denknest) */
+.tags {
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.tags a {
+    display: inline-block;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    padding: var(--space-xs) var(--space-sm);
+    margin-right: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    border: 1px solid var(--color-border);
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tags a:hover {
+    background-color: var(--color-header-footer-bg);
+    border-color: var(--color-muted-text);
+    text-decoration: none;
+}
+
+/* ================================================================
+   BILDER
+================================================================ */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    border-radius: var(--border-radius);
+}
+
+figure {
+    text-align: center;
+}
+
+figcaption {
+    margin-top: var(--space-md);
+    color: var(--color-muted-text);
+    font-style: italic;
+}
+
+/*
+  Hilfsklasse zur Invertierung und Verschmelzung von Bildern im Dark Mode.
+  'filter' korrigiert die Farben und 'mix-blend-mode' laesst den schwarzen
+  Hintergrund mit dem Design verschmelzen. (teamfalk)
+*/
+.darkmode {
+    filter: invert(1) hue-rotate(180deg);
+    mix-blend-mode: lighten;
+}
+
+/* Im hellen Modus: Darkmode-Filter zuruecksetzen (XOR-Logik) */
+@media screen and (not (prefers-color-scheme: light)) {
+    body:has(#light-mode-toggle:checked) .darkmode {
+        filter: none;
+        mix-blend-mode: normal;
+    }
+}
+
+@media screen and (prefers-color-scheme: light) {
+    body:not(:has(#light-mode-toggle:checked)) .darkmode {
+        filter: none;
+        mix-blend-mode: normal;
+    }
+}
+
+/* Figures innerhalb von Cards */
+main figure {
+    position: relative;
+    margin: var(--space-xl) 0;
+}
+
+main > section > figure {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* ================================================================
+   LIGHTBOX (reines CSS, ohne Skripte)
+================================================================ */
+figure .image-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+figure .image-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: zoom-in;
+    z-index: 10;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+figure .image-label span {
+    background-color: var(--color-overlay-bg);
+    color: var(--color-overlay-text);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    margin-bottom: 1rem;
+}
+
+figure:hover .image-label span,
+figure .image-toggle:focus-visible + .image-label span {
+    opacity: 1;
+}
+
+/* Sichtbarer Fokus auf der Bildvergroesserung fuer Tastaturnutzer
+   (die Checkbox ist unsichtbar, das Label liegt darueber) */
+figure .image-toggle:focus-visible + .image-label {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+figure .image-large {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-overlay-dark);
+    color: var(--color-overlay-text);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+figure .image-large img {
+    max-width: 90%;
+    max-height: 90%;
+}
+
+figure .close-label {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    background-color: var(--color-overlay-bg);
+    color: var(--color-overlay-text);
+    cursor: pointer;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    z-index: 2001;
+}
+
+figure .close-label:hover,
+figure .close-label:focus {
+    background-color: var(--color-overlay-hover-bg);
+    color: var(--color-overlay-text);
+    border-color: var(--color-overlay-text);
+    outline: 3px solid var(--color-overlay-text);
+    outline-offset: 2px;
+}
+
+figure .image-toggle:checked ~ .image-large {
+    display: flex;
+}
+
+/* ================================================================
+   EINZELBILD EIN-/AUSBLENDEN
+================================================================ */
+.collapsible-figure {
+    position: relative;
+}
+
+.figure-visibility-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.figure-visibility-label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--color-secondary-bg);
+    color: var(--color-text);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: 1px solid var(--color-border);
+    transition: all 0.2s ease;
+    margin-bottom: 0.75rem;
+}
+
+.figure-visibility-label:hover {
+    background-color: var(--color-link-hover-bg);
+    border-color: var(--color-link);
+}
+
+.figure-visibility-toggle:focus + .figure-visibility-label {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+    border-color: var(--color-focus);
+}
+
+.figure-visibility-text {
+    background-color: transparent;
+    color: inherit;
+    font-size: 0; /* Originaltext verstecken, Icon+Text kommen per ::before/::after */
+}
+
+.figure-visibility-text::before {
+    content: '👁️ ';
+    margin-right: 0.25rem;
+    font-size: 0.85rem;
+}
+
+.figure-visibility-text::after {
+    content: 'Bild ausblenden';
+    font-size: 0.85rem;
+}
+
+.figure-visibility-toggle:checked + .figure-visibility-label .figure-visibility-text::before {
+    content: '👁️‍🗨️ ';
+}
+
+.figure-visibility-toggle:checked + .figure-visibility-label .figure-visibility-text::after {
+    content: 'Bild einblenden';
+}
+
+/* checked = ausgeblendet */
+.figure-visibility-toggle:checked ~ .figure-content {
+    display: none;
+}
+
+.figure-visibility-toggle:checked ~ figcaption::before {
+    content: '[Bild ausgeblendet] ';
+    font-style: normal;
+    color: var(--color-muted-text);
+}
+
+.figure-content {
+    position: relative;
+}
+
+.figure-content .image-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 0.5rem);
+}
+
+/* ================================================================
+   FOOTER
+================================================================ */
+footer {
+    background-color: var(--color-header-footer-bg);
+    color: var(--color-text);
+    padding: var(--space-md);
+    text-align: center;
+    border-radius: var(--border-radius);
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Footer-Links: nicht nur durch Farbe erkennbar */
+footer a {
+    color: var(--color-link);
+    text-decoration: underline;
+    text-decoration-color: var(--color-link-underline);
+}
+
+footer a:visited {
+    color: var(--color-link-visited);
+}
+
+footer a:hover,
+footer a:focus {
+    color: var(--color-link-hover);
+    text-decoration-color: currentColor;
+}
+
+/* ================================================================
+   ACCESSIBILITY
+================================================================ */
+:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+/* BARRIEREFREI VERSTECKEN - Wird von Validatoren erkannt */
+.skip-link {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    transition: all 0.3s ease;
+}
+
+/* SICHTBAR BEI FOKUS/ACTIVE - Farben sind modusunabhaengig
+   konstant (Variablen aus der Farbdatei) */
+.skip-link:focus,
+.skip-link:active {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: auto;
+    height: auto;
+    padding: 12px 16px;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    background: var(--color-skip-link-bg);
+    color: var(--color-skip-link-text);
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 10000;
+    outline: 3px solid var(--color-skip-link-focus);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px var(--color-skip-link-shadow);
+    font-size: 16px; /* Verhindert Zoom auf iOS */
+    line-height: 1.2;
+}
+
+@media (hover: hover) {
+    .skip-link:hover {
+        background: var(--color-skip-link-bg-hover);
+    }
+}
+
+/* Visuell versteckter Text fuer Screenreader */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ================================================================
+   MODUS-SCHALTER (hell/dunkel, hoher Kontrast, Bilder aus)
+   Reine CSS-Checkbox-Schalter, XOR-Logik mit den Systempraeferenzen
+================================================================ */
+.light-mode-wrapper,
+.high-contrast-wrapper,
+.hide-images-wrapper {
+    position: fixed;
+    right: var(--space-md);
+    z-index: 100;
+}
+
+.light-mode-wrapper {
+    top: var(--space-md);
+}
+
+.high-contrast-wrapper {
+    top: calc(var(--space-md) + 3rem);
+}
+
+.hide-images-wrapper {
+    top: calc(var(--space-md) + 6rem);
+}
+
+.light-mode-toggle,
+.high-contrast-toggle,
+.hide-images-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.light-mode-label,
+.high-contrast-label,
+.hide-images-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--color-nav-background);
+    color: var(--color-text);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid var(--color-border);
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px var(--color-shadow-card);
+}
+
+.light-mode-label:hover,
+.high-contrast-label:hover,
+.hide-images-label:hover {
+    background-color: var(--color-secondary-bg);
+    border-color: var(--color-link);
+}
+
+.light-mode-toggle:focus + .light-mode-label,
+.high-contrast-toggle:focus + .high-contrast-label,
+.hide-images-toggle:focus + .hide-images-label {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+    border-color: var(--color-focus);
+}
+
+.light-mode-text,
+.high-contrast-text,
+.hide-images-text {
+    background-color: transparent;
+    color: inherit;
+}
+
+.light-mode-text::before {
+    content: '☀️ ';
+    margin-right: 0.25rem;
+}
+
+#light-mode-toggle:checked + .light-mode-label .light-mode-text::before {
+    content: '🌙 ';
+}
+
+.high-contrast-text::before {
+    content: '◐ ';
+    margin-right: 0.25rem;
+}
+
+#high-contrast-toggle:checked + .high-contrast-label .high-contrast-text::before {
+    content: '◉ ';
+}
+
+.hide-images-text::before {
+    content: '🖼️ ';
+    margin-right: 0.25rem;
+}
+
+#hide-images-toggle:checked + .hide-images-label .hide-images-text::before {
+    content: '🚫 ';
+}
+
+/* Bei dunkler Systempraeferenz ist der Hell-Schalter standardmaessig aus
+   (= dunkler Modus aktiv). Icons spiegeln, damit das Symbol immer
+   den gerade aktiven Modus zeigt (XOR-Logik). */
+@media screen and (not (prefers-color-scheme: light)) {
+    .light-mode-text::before {
+        content: '🌙 ';
+    }
+
+    #light-mode-toggle:checked + .light-mode-label .light-mode-text::before {
+        content: '☀️ ';
+    }
+}
+
+/* Bei Systempraeferenz "mehr Kontrast" ist der Modus standardmaessig aktiv
+   (Schalter aus). Icons spiegeln entsprechend. */
+@media screen and (prefers-contrast: more) {
+    .high-contrast-text::before {
+        content: '◉ ';
+    }
+
+    #high-contrast-toggle:checked + .high-contrast-label .high-contrast-text::before {
+        content: '◐ ';
+    }
+}
+
+/* Bilder ausblenden wenn Toggle aktiv - nur den Content, nicht die Schalter */
+body:has(#hide-images-toggle:checked) main figure .figure-content {
+    display: none;
+}
+
+body:has(#hide-images-toggle:checked) main figure figcaption::before {
+    content: '[Bild ausgeblendet] ';
+    font-style: normal;
+    color: var(--color-muted-text);
+}
+
+/* Hoher Kontrast - Zusaetzliche Hervorhebungen (XOR-Logik) */
+@media screen and (not (prefers-contrast: more)) {
+    body:has(#high-contrast-toggle:checked) header,
+    body:has(#high-contrast-toggle:checked) nav,
+    body:has(#high-contrast-toggle:checked) footer,
+    body:has(#high-contrast-toggle:checked) main > section {
+        border: 3px solid var(--color-border);
+    }
+
+    body:has(#high-contrast-toggle:checked) a {
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+    body:has(#high-contrast-toggle:checked) h1,
+    body:has(#high-contrast-toggle:checked) h2,
+    body:has(#high-contrast-toggle:checked) h3 {
+        font-weight: 700;
+        border-bottom: 2px solid var(--color-text);
+        padding-bottom: 0.25rem;
+    }
+}
+
+@media screen and (prefers-contrast: more) {
+    body:not(:has(#high-contrast-toggle:checked)) header,
+    body:not(:has(#high-contrast-toggle:checked)) nav,
+    body:not(:has(#high-contrast-toggle:checked)) footer,
+    body:not(:has(#high-contrast-toggle:checked)) main > section {
+        border: 3px solid var(--color-border);
+    }
+
+    body:not(:has(#high-contrast-toggle:checked)) a {
+        font-weight: 600;
+        text-decoration: underline;
+    }
+
+    body:not(:has(#high-contrast-toggle:checked)) h1,
+    body:not(:has(#high-contrast-toggle:checked)) h2,
+    body:not(:has(#high-contrast-toggle:checked)) h3 {
+        font-weight: 700;
+        border-bottom: 2px solid var(--color-text);
+        padding-bottom: 0.25rem;
+    }
+}
+
+/* ================================================================
+   AKKORDEON (details/summary, buch01)
+================================================================ */
+main > section > details > summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-right: 2rem;
+}
+
+main > section > details > summary::-webkit-details-marker {
+    display: none;
+}
+
+main > section > details > summary::after {
+    content: '▼';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transition: transform 0.3s ease;
+    color: var(--color-link);
+    font-size: 1.2rem;
+}
+
+main > section > details[open] > summary::after {
+    transform: translateY(-50%) rotate(0);
+}
+
+main > section > details > summary h2 {
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+    width: 100%;
+}
+
+main > section > details > .chapter-content {
+    margin-top: var(--space-md);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+main > section > details > summary:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+/* ================================================================
+   RESPONSIVE
+================================================================ */
+@media (max-width: 768px) {
+    /* Modus-Schalter horizontal oben links */
+    .light-mode-wrapper,
+    .high-contrast-wrapper,
+    .hide-images-wrapper {
+        position: fixed;
+        top: var(--space-xs);
+        right: auto;
+        left: var(--space-xs);
+    }
+
+    .high-contrast-wrapper {
+        left: calc(var(--space-xs) + 6.5rem);
+    }
+
+    .hide-images-wrapper {
+        left: calc(var(--space-xs) + 13rem);
+    }
+
+    .light-mode-label,
+    .high-contrast-label,
+    .hide-images-label {
+        padding: 0.35rem 0.6rem;
+        font-size: 0.8rem;
+        border-radius: 15px;
+    }
+
+    /* Text ausblenden, nur Icons zeigen */
+    .light-mode-text,
+    .high-contrast-text,
+    .hide-images-text {
+        font-size: 0;
+    }
+
+    .light-mode-text::before,
+    .high-contrast-text::before,
+    .hide-images-text::before {
+        font-size: 1rem;
+        margin-right: 0;
+    }
+
+    /* Platz fuer die Schalter */
+    body {
+        padding-top: 3rem;
+    }
+
+    /* Skip-Link zentriert oben */
+    .skip-link:focus,
+    .skip-link:active {
+        top: 5px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 600px) {
+    :root {
+        --content-max-width: 100%;
+        --space-md: 0.75rem;
+        --space-xl: 1.5rem;
+        --space-xxl: 2rem;
+    }
+
+    body {
+        padding: var(--space-sm);
+    }
+
+    .az-nav {
+        grid-template-columns: repeat(auto-fit, minmax(36px, 1fr));
+        gap: var(--space-xs);
+    }
+
+    article,
+    section {
+        padding: var(--space-sm);
+    }
+
+    header,
+    footer {
+        padding: var(--space-sm) var(--space-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .high-contrast-wrapper {
+        left: calc(var(--space-xs) + 3.5rem);
+    }
+
+    .hide-images-wrapper {
+        left: calc(var(--space-xs) + 7rem);
+    }
+
+    .light-mode-label,
+    .high-contrast-label,
+    .hide-images-label {
+        padding: 0.3rem 0.5rem;
+    }
+
+    .nav-inline {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav-inline li:not(:last-child)::after {
+        display: none;
+    }
+}
