@@ -4,6 +4,10 @@
 ================================================================ */
 
 :root {
+/* Native UI-Elemente (Scrollbars, Checkboxen, Formularfelder)
+an den jeweiligen Modus anpassen */
+color-scheme: dark;
+
     /* ===== FARBPALETTE ===== */
     --color-background: #111827;
     --color-text: #D1D5DB;
@@ -71,6 +75,7 @@
 /* ===== HELLER MODUS: System dunkel + Schalter AN ===== */
 @media screen and (not (prefers-color-scheme: light)) {
     body:has(#light-mode-toggle:checked) {
+color-scheme: light;
         --color-background: #ffffff;
         --color-text: #1F2937;
         --color-heading: #92400E;
@@ -98,6 +103,7 @@
 /* ===== HELLER MODUS: System hell + Schalter AUS ===== */
 @media screen and (prefers-color-scheme: light) {
     body:not(:has(#light-mode-toggle:checked)) {
+color-scheme: light;
         --color-background: #ffffff;
         --color-text: #1F2937;
         --color-heading: #92400E;
@@ -125,6 +131,7 @@
 /* ===== HOHER KONTRAST: System ohne Präferenz + Schalter AN ===== */
 @media screen and (not (prefers-contrast: more)) {
     body:has(#high-contrast-toggle:checked) {
+color-scheme: dark;
         --color-background: #000000;
         --color-text: #ffffff;
         --color-heading: #FFD700;
@@ -150,6 +157,7 @@
 /* ===== HOHER KONTRAST: System mit Präferenz + Schalter AUS ===== */
 @media screen and (prefers-contrast: more) {
     body:not(:has(#high-contrast-toggle:checked)) {
+color-scheme: dark;
         --color-background: #000000;
         --color-text: #ffffff;
         --color-heading: #FFD700;
@@ -175,6 +183,7 @@
 /* Erzwingt Papier-freundliche Farben für ALLE Projekte */
 @media print {
     :root {
+color-scheme: light;
         --color-background: #ffffff;
         --color-text: #000000;
         --color-heading: #000000;
