@@ -38,4 +38,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap:  https://asi.teamfalk.eu/sitemap.xml
+Sitemap:  https://www.deepasi.eu/sitemap.xml
